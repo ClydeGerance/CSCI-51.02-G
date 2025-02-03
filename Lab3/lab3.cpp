@@ -1,4 +1,5 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <memory>  
 
 using namespace std;
 
@@ -9,7 +10,6 @@ struct IntNode {
     IntNode(int data) : data(data) {};
     IntNode(int data, IntNode* next) : data(data), next(next) {};
 };
-
 
 struct IntStack {
     IntNode* top = NULL;
@@ -30,24 +30,26 @@ struct IntStack {
     int peek() { 
         if (top != NULL)
             return top->data;
-        throw runtime_error("Attempting to peek a stack with no elements.");
-        // return NULL;
+        cerr << "Error: Attempting to peek a stack with no elements." << endl;
+        return -1;
     }
+
     int pop() {
         if (top != NULL) {
             IntNode* prevTop = top;
             int data = top->data;
             top = top->next;
             delete prevTop;
-
             return data;
         }
+        cerr << "Error: Attempting to pop a stack with no elements." << endl;
+        return -1;
+    }
 
-        throw runtime_error("Attempting to pop a stack with no elements.");
-        // return NULL;
+    bool isEmpty() {  
+        return top == NULL;  
     }
 };
-
 
 int main() {
 
@@ -80,9 +82,12 @@ int main() {
     cout << s.peek() << endl;
     s.push(2);
     cout << s.pop() << endl;
-    
 
-
+    // Extra Tests
+    cout << s.pop() << endl;
+    if (s.isEmpty()) {
+        cout << "empty" << endl;
+    }
 
     return 0;
 }
