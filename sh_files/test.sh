@@ -1,10 +1,5 @@
-#!/usr/bin/bash
+echo '$abc'
+echo "$abc$"
+echo \$abc
 
 
-a=7
-while [ $a -gt 4 ]
-do
-    echo $a
-    ((a–))
-done
-echo “Out of the loop”
