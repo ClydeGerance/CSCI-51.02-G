@@ -6,7 +6,7 @@ echo "Hello $1 $2"
 
 innerfunc 
 
-return 20
+return 2
 
 }
 
