@@ -1,6 +1,3 @@
-#ifndef POINT3D_HPP
-#define POINT3D_HPP
-
 #include <iostream>
 
 struct Point3D {
@@ -14,4 +11,3 @@ struct Point3D {
     void printPoint();
 };
 
-#endif
