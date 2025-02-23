@@ -1,17 +1,22 @@
-#include <iostream>
+#include<iostream>
 
-int multiply(int x, int y) {
-    int result = 0;
-    
-    while (y) {
-        if (y & 1)  // If y is odd, add x to result
-            result += x;
+using namespace std;
+
+int mult(int a, int b) {
+    int prod = 0;
+    bool neg = (a < 0) ^ (b < 0);
+
+    a = abs(a);     // get absolute value
+    b = abs(b);
+
+    while (b > 0) {
+        if (b & 1) 
+            prod+=a;
         
-        x <<= 1;  // Double x (shift left)
-        y >>= 1;  // Halve y (shift right)
+        a <<= 1;
+        b >>= 1;
     }
-    
-    return result;
+    return neg ? -prod: prod;
 }
 
 int main() {
@@ -19,6 +24,6 @@ int main() {
     std::cout << "Enter two numbers: ";
     std::cin >> a >> b;
 
-    std::cout << a << " * " << b << " = " << multiply(a, b) << std::endl;
+    std::cout << a << " * " << b << " = " << mult(a, b) << std::endl;
     return 0;
 }

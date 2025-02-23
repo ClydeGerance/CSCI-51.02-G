@@ -1,4 +1,4 @@
-	.file	"lab4test.cpp"
+	.file	"lab4.cpp"
 	.text
 	.section	.text._ZNSt11char_traitsIcE6lengthEPKc,"axG",@progbits,_ZNSt11char_traitsIcE6lengthEPKc,comdat
 	.weak	_ZNSt11char_traitsIcE6lengthEPKc
@@ -90,45 +90,39 @@ _Z4multii:
 	movl	%edi, -20(%rbp)
 	movl	%esi, -24(%rbp)
 	movl	$0, -4(%rbp)
-	movl	-20(%rbp), %eax
-	xorl	-24(%rbp), %eax
-	shrl	$31, %eax
-	movzbl	%al, %eax
-	testl	%eax, %eax
-	setne	%al
-	movb	%al, -5(%rbp)
-	movl	-20(%rbp), %eax
-	movl	%eax, %edx
-	negl	%edx
-	cmovns	%edx, %eax
-	movl	%eax, -20(%rbp)
 	movl	-24(%rbp), %eax
-	movl	%eax, %edx
-	negl	%edx
-	cmovns	%edx, %eax
-	movl	%eax, -24(%rbp)
-	jmp	.L8
-.L10:
+	shrl	$31, %eax
+	movb	%al, -5(%rbp)
+	cmpb	$0, -5(%rbp)
+	je	.L8
+	movl	-24(%rbp), %eax
+	addl	%eax, %eax
+	jmp	.L9
+.L8:
+	movl	$0, %eax
+.L9:
+	subl	%eax, -24(%rbp)
+	jmp	.L10
+.L13:
 	movl	-24(%rbp), %eax
 	andl	$1, %eax
 	testl	%eax, %eax
-	je	.L9
+	je	.L11
+	cmpb	$0, -5(%rbp)
+	je	.L12
+	movl	-20(%rbp), %eax
+	subl	%eax, -4(%rbp)
+	jmp	.L11
+.L12:
 	movl	-20(%rbp), %eax
 	addl	%eax, -4(%rbp)
-.L9:
+.L11:
 	sall	-20(%rbp)
 	sarl	-24(%rbp)
-.L8:
+.L10:
 	cmpl	$0, -24(%rbp)
-	jg	.L10
-	cmpb	$0, -5(%rbp)
-	je	.L11
+	jg	.L13
 	movl	-4(%rbp), %eax
-	negl	%eax
-	jmp	.L13
-.L11:
-	movl	-4(%rbp), %eax
-.L13:
 	popq	%rbp
 	.cfi_def_cfa 7, 8
 	ret
@@ -223,36 +217,36 @@ main:
 	movl	$0, %eax
 	movq	-24(%rbp), %rdx
 	subq	%fs:40, %rdx
-	je	.L20
-	jmp	.L25
-.L22:
+	je	.L21
+	jmp	.L26
+.L23:
 	endbr64
 	movq	%rax, %rbx
 	leaq	-64(%rbp), %rax
 	movq	%rax, %rdi
 	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev@PLT
-	jmp	.L17
-.L21:
+	jmp	.L18
+.L22:
 	endbr64
 	movq	%rax, %rbx
-.L17:
+.L18:
 	leaq	-73(%rbp), %rax
 	movq	%rax, %rdi
 	call	_ZNSaIcED1Ev@PLT
 	movq	%rbx, %rax
 	movq	%rax, %rdi
 	call	_Unwind_Resume@PLT
-.L24:
+.L25:
 	endbr64
 	movq	%rax, %rbx
 	leaq	-64(%rbp), %rax
 	movq	%rax, %rdi
 	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev@PLT
-	jmp	.L19
-.L23:
+	jmp	.L20
+.L24:
 	endbr64
 	movq	%rax, %rbx
-.L19:
+.L20:
 	leaq	-73(%rbp), %rax
 	movq	%rax, %rdi
 	call	_ZNSaIcED1Ev@PLT
@@ -260,9 +254,9 @@ main:
 	movq	%rax, %rdi
 	call	_Unwind_Resume@PLT
 .LEHE4:
-.L25:
+.L26:
 	call	__stack_chk_fail@PLT
-.L20:
+.L21:
 	movq	-8(%rbp), %rbx
 	leave
 	.cfi_def_cfa 7, 8
@@ -279,19 +273,19 @@ main:
 .LLSDACSB1732:
 	.uleb128 .LEHB0-.LFB1732
 	.uleb128 .LEHE0-.LEHB0
-	.uleb128 .L21-.LFB1732
+	.uleb128 .L22-.LFB1732
 	.uleb128 0
 	.uleb128 .LEHB1-.LFB1732
 	.uleb128 .LEHE1-.LEHB1
-	.uleb128 .L22-.LFB1732
+	.uleb128 .L23-.LFB1732
 	.uleb128 0
 	.uleb128 .LEHB2-.LFB1732
 	.uleb128 .LEHE2-.LEHB2
-	.uleb128 .L23-.LFB1732
+	.uleb128 .L24-.LFB1732
 	.uleb128 0
 	.uleb128 .LEHB3-.LFB1732
 	.uleb128 .LEHE3-.LEHB3
-	.uleb128 .L24-.LFB1732
+	.uleb128 .L25-.LFB1732
 	.uleb128 0
 	.uleb128 .LEHB4-.LFB1732
 	.uleb128 .LEHE4-.LEHB4
@@ -345,10 +339,10 @@ _ZN9__gnu_cxx11char_traitsIcE6lengthEPKc:
 	movq	%rax, -8(%rbp)
 	xorl	%eax, %eax
 	movq	$0, -16(%rbp)
-	jmp	.L29
-.L30:
+	jmp	.L30
+.L31:
 	addq	$1, -16(%rbp)
-.L29:
+.L30:
 	movb	$0, -17(%rbp)
 	movq	-40(%rbp), %rdx
 	movq	-16(%rbp), %rax
@@ -359,13 +353,13 @@ _ZN9__gnu_cxx11char_traitsIcE6lengthEPKc:
 	call	_ZN9__gnu_cxx11char_traitsIcE2eqERKcS3_
 	xorl	$1, %eax
 	testb	%al, %al
-	jne	.L30
+	jne	.L31
 	movq	-16(%rbp), %rax
 	movq	-8(%rbp), %rdx
 	subq	%fs:40, %rdx
-	je	.L32
+	je	.L33
 	call	__stack_chk_fail@PLT
-.L32:
+.L33:
 	leave
 	.cfi_def_cfa 7, 8
 	ret
@@ -420,12 +414,12 @@ _ZZN9__gnu_cxx6__stoaIlicJiEEET0_PFT_PKT1_PPS3_DpT2_EPKcS5_PmS9_EN11_Save_errnoD
 	call	__errno_location@PLT
 	movl	(%rax), %eax
 	testl	%eax, %eax
-	jne	.L36
+	jne	.L37
 	call	__errno_location@PLT
 	movq	-8(%rbp), %rdx
 	movl	(%rdx), %edx
 	movl	%edx, (%rax)
-.L36:
+.L37:
 	nop
 	leave
 	.cfi_def_cfa 7, 8
@@ -450,16 +444,16 @@ _ZZN9__gnu_cxx6__stoaIlicJiEEET0_PFT_PKT1_PPS3_DpT2_EPKcS5_PmS9_EN10_Range_chk6_
 	movq	%rdi, -8(%rbp)
 	movabsq	$-2147483649, %rax
 	cmpq	%rax, -8(%rbp)
-	jle	.L38
+	jle	.L39
 	movl	$2147483648, %eax
 	cmpq	%rax, -8(%rbp)
-	jl	.L39
-.L38:
-	movl	$1, %eax
-	jmp	.L40
+	jl	.L40
 .L39:
-	movl	$0, %eax
+	movl	$1, %eax
+	jmp	.L41
 .L40:
+	movl	$0, %eax
+.L41:
 	popq	%rbp
 	.cfi_def_cfa 7, 8
 	ret
@@ -505,43 +499,43 @@ _ZN9__gnu_cxx6__stoaIlicJiEEET0_PFT_PKT1_PPS3_DpT2_EPKcS5_PmS9_:
 	movq	%rax, -32(%rbp)
 	movq	-40(%rbp), %rax
 	cmpq	%rax, -88(%rbp)
-	jne	.L43
+	jne	.L44
 	movq	-80(%rbp), %rax
 	movq	%rax, %rdi
 	call	_ZSt24__throw_invalid_argumentPKc@PLT
-.L43:
+.L44:
 	call	__errno_location@PLT
 	movl	(%rax), %eax
 	cmpl	$34, %eax
-	je	.L44
+	je	.L45
 	movq	-32(%rbp), %rax
 	movq	%rax, %rdi
 	call	_ZZN9__gnu_cxx6__stoaIlicJiEEET0_PFT_PKT1_PPS3_DpT2_EPKcS5_PmS9_EN10_Range_chk6_S_chkElSt17integral_constantIbLb1EE
 	testb	%al, %al
-	je	.L45
-.L44:
-	movl	$1, %eax
-	jmp	.L46
+	je	.L46
 .L45:
-	movl	$0, %eax
+	movl	$1, %eax
+	jmp	.L47
 .L46:
+	movl	$0, %eax
+.L47:
 	testb	%al, %al
-	je	.L47
+	je	.L48
 	movq	-80(%rbp), %rax
 	movq	%rax, %rdi
 	call	_ZSt20__throw_out_of_rangePKc@PLT
 .LEHE5:
-.L47:
+.L48:
 	movq	-32(%rbp), %rax
 	movl	%eax, -44(%rbp)
 	cmpq	$0, -96(%rbp)
-	je	.L48
+	je	.L49
 	movq	-40(%rbp), %rax
 	subq	-88(%rbp), %rax
 	movq	%rax, %rdx
 	movq	-96(%rbp), %rax
 	movq	%rdx, (%rax)
-.L48:
+.L49:
 	movl	-44(%rbp), %ebx
 	leaq	-48(%rbp), %rax
 	movq	%rax, %rdi
@@ -549,9 +543,9 @@ _ZN9__gnu_cxx6__stoaIlicJiEEET0_PFT_PKT1_PPS3_DpT2_EPKcS5_PmS9_:
 	movl	%ebx, %eax
 	movq	-24(%rbp), %rdx
 	subq	%fs:40, %rdx
-	je	.L51
-	jmp	.L53
-.L52:
+	je	.L52
+	jmp	.L54
+.L53:
 	endbr64
 	movq	%rax, %rbx
 	leaq	-48(%rbp), %rax
@@ -562,9 +556,9 @@ _ZN9__gnu_cxx6__stoaIlicJiEEET0_PFT_PKT1_PPS3_DpT2_EPKcS5_PmS9_:
 .LEHB6:
 	call	_Unwind_Resume@PLT
 .LEHE6:
-.L53:
+.L54:
 	call	__stack_chk_fail@PLT
-.L51:
+.L52:
 	movq	-8(%rbp), %rbx
 	leave
 	.cfi_def_cfa 7, 8
@@ -580,7 +574,7 @@ _ZN9__gnu_cxx6__stoaIlicJiEEET0_PFT_PKT1_PPS3_DpT2_EPKcS5_PmS9_:
 .LLSDACSB1761:
 	.uleb128 .LEHB5-.LFB1761
 	.uleb128 .LEHE5-.LEHB5
-	.uleb128 .L52-.LFB1761
+	.uleb128 .L53-.LFB1761
 	.uleb128 0
 	.uleb128 .LEHB6-.LFB1761
 	.uleb128 .LEHE6-.LEHB6
@@ -653,17 +647,17 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC2IS3_EEPKcRKS3_:
 	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_Alloc_hiderC1EPcRKS3_@PLT
 .LEHE7:
 	cmpq	$0, -64(%rbp)
-	je	.L56
+	je	.L57
 	movq	-64(%rbp), %rax
 	movq	%rax, %rdi
 .LEHB8:
 	call	_ZNSt11char_traitsIcE6lengthEPKc
 	movq	-64(%rbp), %rdx
 	addq	%rdx, %rax
-	jmp	.L57
-.L56:
-	movl	$1, %eax
+	jmp	.L58
 .L57:
+	movl	$1, %eax
+.L58:
 	movq	%rax, -32(%rbp)
 	movq	-32(%rbp), %rdx
 	movq	-64(%rbp), %rcx
@@ -672,8 +666,8 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC2IS3_EEPKcRKS3_:
 	movq	%rax, %rdi
 	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_St20forward_iterator_tag
 .LEHE8:
-	jmp	.L61
-.L60:
+	jmp	.L62
+.L61:
 	endbr64
 	movq	%rax, %rbx
 	movq	-56(%rbp), %rax
@@ -684,12 +678,12 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC2IS3_EEPKcRKS3_:
 .LEHB9:
 	call	_Unwind_Resume@PLT
 .LEHE9:
-.L61:
+.L62:
 	movq	-24(%rbp), %rax
 	subq	%fs:40, %rax
-	je	.L59
+	je	.L60
 	call	__stack_chk_fail@PLT
-.L59:
+.L60:
 	movq	-8(%rbp), %rbx
 	leave
 	.cfi_def_cfa 7, 8
@@ -709,7 +703,7 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC2IS3_EEPKcRKS3_:
 	.uleb128 0
 	.uleb128 .LEHB8-.LFB1994
 	.uleb128 .LEHE8-.LEHB8
-	.uleb128 .L60-.LFB1994
+	.uleb128 .L61-.LFB1994
 	.uleb128 0
 	.uleb128 .LEHB9-.LFB1994
 	.uleb128 .LEHE9-.LEHB9
@@ -781,22 +775,22 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_S
 	movq	%rax, %rdi
 	call	_ZN9__gnu_cxx17__is_null_pointerIKcEEbPT_
 	testb	%al, %al
-	je	.L65
+	je	.L66
 	movq	-48(%rbp), %rax
 	cmpq	-56(%rbp), %rax
-	je	.L65
+	je	.L66
 	movl	$1, %eax
-	jmp	.L66
-.L65:
-	movl	$0, %eax
+	jmp	.L67
 .L66:
+	movl	$0, %eax
+.L67:
 	testb	%al, %al
-	je	.L67
+	je	.L68
 	leaq	.LC1(%rip), %rax
 	movq	%rax, %rdi
 .LEHB10:
 	call	_ZSt19__throw_logic_errorPKc@PLT
-.L67:
+.L68:
 	movq	-56(%rbp), %rdx
 	movq	-48(%rbp), %rax
 	movq	%rdx, %rsi
@@ -805,7 +799,7 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_S
 	movq	%rax, -32(%rbp)
 	movq	-32(%rbp), %rax
 	cmpq	$15, %rax
-	jbe	.L68
+	jbe	.L69
 	leaq	-32(%rbp), %rcx
 	movq	-40(%rbp), %rax
 	movl	$0, %edx
@@ -823,7 +817,7 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_S
 	movq	%rax, %rdi
 	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE11_M_capacityEm@PLT
 .LEHE10:
-.L68:
+.L69:
 	movq	-40(%rbp), %rax
 	movq	%rax, %rdi
 .LEHB11:
@@ -845,9 +839,9 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_S
 	nop
 	movq	-24(%rbp), %rax
 	subq	%fs:40, %rax
-	je	.L71
-	jmp	.L74
-.L72:
+	je	.L72
+	jmp	.L75
+.L73:
 	endbr64
 	movq	%rax, %rdi
 	call	__cxa_begin_catch@PLT
@@ -857,7 +851,7 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_S
 	call	_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_disposeEv@PLT
 	call	__cxa_rethrow@PLT
 .LEHE13:
-.L73:
+.L74:
 	endbr64
 	movq	%rax, %rbx
 	call	__cxa_end_catch@PLT
@@ -866,9 +860,9 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_S
 .LEHB14:
 	call	_Unwind_Resume@PLT
 .LEHE14:
-.L74:
+.L75:
 	call	__stack_chk_fail@PLT
-.L71:
+.L72:
 	movq	-8(%rbp), %rbx
 	leave
 	.cfi_def_cfa 7, 8
@@ -891,7 +885,7 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_S
 	.uleb128 0
 	.uleb128 .LEHB11-.LFB2073
 	.uleb128 .LEHE11-.LEHB11
-	.uleb128 .L72-.LFB2073
+	.uleb128 .L73-.LFB2073
 	.uleb128 0x1
 	.uleb128 .LEHB12-.LFB2073
 	.uleb128 .LEHE12-.LEHB12
@@ -899,7 +893,7 @@ _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE12_M_constructIPKcEEvT_S8_S
 	.uleb128 0
 	.uleb128 .LEHB13-.LFB2073
 	.uleb128 .LEHE13-.LEHB13
-	.uleb128 .L73-.LFB2073
+	.uleb128 .L74-.LFB2073
 	.uleb128 0
 	.uleb128 .LEHB14-.LFB2073
 	.uleb128 .LEHE14-.LEHB14
@@ -991,9 +985,9 @@ _Z41__static_initialization_and_destruction_0ii:
 	movl	%edi, -4(%rbp)
 	movl	%esi, -8(%rbp)
 	cmpl	$1, -4(%rbp)
-	jne	.L83
+	jne	.L84
 	cmpl	$65535, -8(%rbp)
-	jne	.L83
+	jne	.L84
 	leaq	_ZStL8__ioinit(%rip), %rax
 	movq	%rax, %rdi
 	call	_ZNSt8ios_base4InitC1Ev@PLT
@@ -1004,7 +998,7 @@ _Z41__static_initialization_and_destruction_0ii:
 	movq	_ZNSt8ios_base4InitD1Ev@GOTPCREL(%rip), %rax
 	movq	%rax, %rdi
 	call	__cxa_atexit@PLT
-.L83:
+.L84:
 	nop
 	leave
 	.cfi_def_cfa 7, 8
