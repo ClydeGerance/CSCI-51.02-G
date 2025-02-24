@@ -21,9 +21,9 @@ int mult(int a, int b) {
 
 int main() {
     int a, b;
-    std::cout << "Enter two numbers: ";
-    std::cin >> a >> b;
+    cout << "Enter two numbers: ";
+    cin >> a >> b;
 
-    std::cout << a << " * " << b << " = " << mult(a, b) << std::endl;
+    cout << a << " * " << b << " = " << mult(a, b) << endl;
     return 0;
 }
