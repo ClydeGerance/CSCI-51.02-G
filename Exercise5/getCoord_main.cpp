@@ -1,7 +1,6 @@
 #include <iostream>
 #include "getCoord_extern.cpp"
 using namespace std;
-#MAIN
 
 struct Point3D{
     int x;
