@@ -3,7 +3,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    signal(SIGCHLD, SIG_IGN);
+    // signal(SIGCHLD, SIG_IGN);
 
     if (fork() == 0) { // child process
 
