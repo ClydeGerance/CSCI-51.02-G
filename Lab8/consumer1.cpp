@@ -7,7 +7,7 @@
 using namespace std;
 
 #define SHM_KEY 1234 // shared memory key
-#define SEM_KEY 1235 // semaphore key
+#define SEM_KEY 1234 // semaphore key
 
 #define FULL 0 // full semaphore index
 #define EMPTY 1 // empty semaphore index
@@ -25,7 +25,8 @@ void wait(int idx) {
     // S--;
 
     struct sembuf op = {idx, -1, 0};
-    if (semop(sem_id, &op, 1) == -1)
+    struct timespec t = {5, 0}; // timeout after 5 seconds
+    if (semtimedop(sem_id, &op, 1, &t) == -1)
         error("semop: decrement failed");
 }
 
@@ -42,7 +43,7 @@ int main(int argc, char *argv[]) {
 
     string file_path = argv[1];
     int shm_size = stoi(argv[2]);
-    int buffer_size = shm_size - sizeof(int); // leave space to store chunk size
+    int buffer_size = shm_size - sizeof(short); // leave space to store chunk size
 
     // initialize shared memory
     int shm_id = shmget(SHM_KEY, shm_size, IPC_CREAT | 0666);
@@ -68,15 +69,15 @@ int main(int argc, char *argv[]) {
     if (!file.is_open())
         error("Failed to open file");
 
-    char* buffer = shm_ptr + sizeof(int); // part of shared memory that actually stores the file content
-    int chunk;
+    char* buffer = shm_ptr + sizeof(short); // part of shared memory that actually stores the file content
+    short chunk;
     int idx = 0;
 
     while (true) {
         wait(FULL);
 
         // critical section
-        memcpy(&chunk, shm_ptr, sizeof(int)); // get the chunk size
+        memcpy(&chunk, shm_ptr, sizeof(short)); // get the chunk size
         cout << idx++ << " " << chunk << " " << buffer << endl;
         if (chunk <= 0) {
             signal(EMPTY);
